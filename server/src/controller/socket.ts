@@ -22,7 +22,7 @@ export default class Socket {
             _socket.game = {
             };
 
-            // console.log(`New connection from ${_socket.conn.id}`);
+            console.log(`New connection from ${_socket.conn.id}`);
             // console.log(`Spawning new characted`);
             global.controller.spawn.newCharacter(_socket).then((character) => {
                 _socket.game.character = character;
