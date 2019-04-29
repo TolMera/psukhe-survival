@@ -1,0 +1,32 @@
+{
+  "name": "psukhe-survival-client",
+  "version": "0.0.1",
+  "description": "Ludum Dare 44 - Entry for a survival type AI game client",
+  "main": "index.js",
+  "scripts": {
+    "test": "index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TolMera/LD44.git"
+  },
+  "keywords": [
+    "Ludum",
+    "Dare",
+    "44",
+    "Survival",
+    "Game",
+    "AI",
+    "Client"
+  ],
+  "author": "Bjorn Macintosh",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/TolMera/LD44/issues"
+  },
+  "homepage": "https://github.com/TolMera/LD44#readme",
+  "dependencies": {
+    "@types/node": "^11.13.8",
+    "socket.io-client": "^2.2.0"
+  }
+}

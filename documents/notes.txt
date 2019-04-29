@@ -1,0 +1,50 @@
+Notification script
+tsc-watch --onSuccess "node build/index & osascript -e 'display notification \"Success\" with title \"Compile\"'" --onFailure "osascript -e 'display notification \"Failure\" with title \"Compile\"'" --compiler typescript/bin/tsc
+
+NPM Packages I thiink I will need
+
+socket.io
+https://socket.io/
+Server and client - cmmunications
+Subscript people to event rooms when A they have the organ t interact EG: Ears, Nose, Eyes - And the Object emitting those events is within range of their character
+
+asciichart
+https://www.npmjs.com/package/asciichart
+It would be nice to work ASCII Chart into the mix - let people see sme charts etc
+
+World size should be Set at start up,
+If a player moved over a world boundary, mve them to another docker, if needs be there can be many docker images running hosting many sections of the world.
+Transitions from one container to another must be seemless.
+
+pf-perlin
+https://www.npmjs.com/package/pf-perlin
+Perlin noise tool - looks pretty good, thought it will need tuning to be appropriate for the task.
+Test script:
+let Perlin = require('pf-perlin')
+let map = new Perlin({
+    seed: `ludumDare44`,
+    dimensions: 2,
+    min: 0,
+    max: 1,
+    wavelength: 1,
+    octaves: 1,
+    octaveScale: 0.5,
+    persistence: 0.5,
+    //interpolation: ,
+})
+let min = 1;
+let max = -1;
+for (let x = 0; x < 1; x += 1/1024) {
+    let v = map.get([x,0]);
+    if (v < min) min = v;
+    if (v > max) max = v;
+}
+console.log(min, max);
+delete(Perlin);
+delete(map);
+delete(min);
+delete(max);
+
+
+I've got basic need for a stats package to get mean/median/mode - I need to figure out where 'underwater' is on my map.
+stats-lite

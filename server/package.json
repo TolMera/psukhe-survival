@@ -1,0 +1,43 @@
+{
+  "name": "psukhe-survival",
+  "version": "0.0.1",
+  "description": "Ludum Dare 44 - Entry for a survival type AI game",
+  "main": "index.js",
+  "scripts": {
+    "test": "index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TolMera/LD44.git"
+  },
+  "keywords": [
+    "Ludum",
+    "Dare",
+    "44",
+    "Survival",
+    "Game",
+    "AI"
+  ],
+  "author": "Bjorn Macintosh",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/TolMera/LD44/issues"
+  },
+  "homepage": "https://github.com/TolMera/LD44#readme",
+  "dependencies": {
+    "array-to-image": "^1.0.0",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "node-png": "^0.4.3",
+    "nodemon": "^1.18.11",
+    "os": "^0.1.1",
+    "pf-perlin": "^2.0.0",
+    "socket.io": "^2.2.0",
+    "stats-lite": "^2.2.0",
+    "stream-array": "^1.1.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "@types/node": "^11.13.8"
+  }
+}

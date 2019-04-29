@@ -1,0 +1,8 @@
+intention
+    action: move
+    dir: n|s|e|w
+        
+intention
+    action: evolve
+    name: name
+
