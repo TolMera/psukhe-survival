@@ -25,7 +25,7 @@ export default {
         dns: "ec2-52-56-250-10.eu-west-2.compute.amazonaws.com",
         ip: "172.31.31.34",
         port: 81
-    }
+    },
     spawn: {
         HP: 100,
         hunger: 100,
