@@ -1,6 +1,8 @@
 export default class Socket {
 
     constructor(_path: string) {
+        let config = require('../helper/configs').default;
+
         var http = require('http').createServer();
         let socket = require('socket.io')(
             http, {
@@ -9,7 +11,7 @@ export default class Socket {
             }
         );
         http.listen({
-            host: '172.31.31.34',
+            host: config.server.ip,
             port: 81
         });
         let id = 0;

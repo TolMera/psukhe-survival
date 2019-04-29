@@ -5,7 +5,7 @@ export default class Socket {
 
         let socket = require('socket.io-client');
         
-        this.socket = socket(`${this.config.server.dns}:${this.config.server.port}`, {
+        this.socket = socket(`http://${this.config.server.ip}:${this.config.server.port}`, {
             path: _path||'/'
         });
         

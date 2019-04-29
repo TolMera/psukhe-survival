@@ -10,7 +10,7 @@ export default {
         tick: 1000 / 20, // = 50
         waittime: {
             start: 3000, // = 60
-            evpoint: 5000, // = 6
+            evpoint: 100000, // = 6
             status: (1000 / 20) * 20,
             // Should have it so there more evolution you buy of a speciffic trait, the more often it will message you.
             eyes: (1000 / 20) * 5,
@@ -23,6 +23,7 @@ export default {
     },
     server: {
         dns: "ec2-52-56-250-10.eu-west-2.compute.amazonaws.com",
+        ip: "172.31.31.34",
         port: 81
     }
     spawn: {

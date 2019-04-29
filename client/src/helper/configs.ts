@@ -11,6 +11,7 @@ export default {
     },
     server: {
         dns: "ec2-52-56-250-10.eu-west-2.compute.amazonaws.com",
+        ip: "52.56.250.10",
         port: 81
     }
 }
