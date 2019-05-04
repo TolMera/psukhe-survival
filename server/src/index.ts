@@ -84,9 +84,9 @@ init().then(() => {
 
             let map = '<table class="col-12" cellspacing="0" cellpadding="1">';
             let i = 0;
-            for (let east = 0; east < global.controller.world.cubeSide; east++) {
+            for (let south = 0; south < global.controller.world.cubeSide; south++) {
                 map += "<tr>";
-                for (let south = 0; south < global.controller.world.cubeSide; south++) {
+                for (let east = 0; east < global.controller.world.cubeSide; east++) {
                     let place = global.controller.world.get(south, east);
                     if (mapTable[i]) {
                         if (place.length > 0) {
