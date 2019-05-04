@@ -16,22 +16,22 @@ export default class Perform {
 
         switch (_intent.dir) {
             case 'n': {
-                newPoint.y--;
+                newPoint.x--;
                 global.controller.world.set(newPoint, char);
                 break;
             }
             case 's': {
-                newPoint.y++;
-                global.controller.world.set(newPoint, char);
-                break;
-            }
-            case 'e': {
                 newPoint.x++;
                 global.controller.world.set(newPoint, char);
                 break;
             }
+            case 'e': {
+                newPoint.y++;
+                global.controller.world.set(newPoint, char);
+                break;
+            }
             case 'w': {
-                newPoint.x--;
+                newPoint.y--;
                 global.controller.world.set(newPoint, char);
                 break;
             }
