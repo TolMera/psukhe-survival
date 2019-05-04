@@ -12,27 +12,27 @@ export default class Perform {
     doMove(_socket, _intent) {
         let char = _socket.game.character;
         global.controller.world.pop(char.position, char);
-        let newPoint = global.controller.world.gridToXY(char.position);
+        let point = global.controller.world.gridToXY(char.position);
 
         switch (_intent.dir) {
             case 'n': {
-                newPoint.south--;
-                global.controller.world.set(newPoint, char);
+                point.south--;
+                global.controller.world.set(point, char);
                 break;
             }
             case 's': {
-                newPoint.south++;
-                global.controller.world.set(newPoint, char);
+                point.south++;
+                global.controller.world.set(point, char);
                 break;
             }
             case 'e': {
-                newPoint.east++;
-                global.controller.world.set(newPoint, char);
+                point.east++;
+                global.controller.world.set(point, char);
                 break;
             }
             case 'w': {
-                newPoint.east--;
-                global.controller.world.set(newPoint, char);
+                point.east--;
+                global.controller.world.set(point, char);
                 break;
             }
         }
@@ -46,26 +46,26 @@ export default class Perform {
     doAttack(_socket, _intent) {
         let char = _socket.game.character;
 
-        let newPoint = global.controller.world.gridToXY(char.position);
+        let point = global.controller.world.gridToXY(char.position);
         let place;
         switch (_intent.dir) {
             case 'n': {
-                newPoint.south--;
+                point.south--;
                 place = global.controller.world.get(char.position);
                 break;
             }
             case 's': {
-                newPoint.south++;
+                point.south++;
                 place = global.controller.world.get(char.position);
                 break;
             }
             case 'e': {
-                newPoint.east++;
+                point.east++;
                 place = global.controller.world.get(char.position);
                 break;
             }
             case 'w': {
-                newPoint.east--;
+                point.east--;
                 place = global.controller.world.get(char.position);
                 break;
             }
