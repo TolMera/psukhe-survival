@@ -111,57 +111,57 @@ export default class Smell {
         _char._socket.game.nose.old.sw = _char._socket.game.nose.sw;
         _char._socket.game.nose.old.e = _char._socket.game.nose.e;
         _char._socket.game.nose.old.w = _char._socket.game.nose.w;
-        _char._socket.game.nose.veg.n = global.controller.map.getVeg(myPoint.x, myPoint.y - 1);
-        _char._socket.game.nose.n = global.controller.world.get(myPoint.x, myPoint.y - 1).filter((item) => {
+        _char._socket.game.nose.veg.n = global.controller.map.getVeg(myPoint.south - 1, myPoint.east);
+        _char._socket.game.nose.n = global.controller.world.get(myPoint.south - 1, myPoint.east).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.nose.veg.ne = global.controller.map.getVeg(myPoint.x + 1, myPoint.y - 1);
-        _char._socket.game.nose.ne = global.controller.world.get(myPoint.x + 1, myPoint.y - 1).filter((item) => {
+        _char._socket.game.nose.veg.ne = global.controller.map.getVeg(myPoint.south - 1, myPoint.east + 1);
+        _char._socket.game.nose.ne = global.controller.world.get(myPoint.south - 1, myPoint.east + 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.nose.veg.nw = global.controller.map.getVeg(myPoint.x - 1, myPoint.y - 1);
-        _char._socket.game.nose.nw = global.controller.world.get(myPoint.x - 1, myPoint.y - 1).filter((item) => {
+        _char._socket.game.nose.veg.nw = global.controller.map.getVeg(myPoint.south - 1, myPoint.east - 1);
+        _char._socket.game.nose.nw = global.controller.world.get(myPoint.south - 1, myPoint.east - 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.nose.veg.s = global.controller.map.getVeg(myPoint.x, myPoint.y + 1);
-        _char._socket.game.nose.s = global.controller.world.get(myPoint.x, myPoint.y + 1).filter((item) => {
+        _char._socket.game.nose.veg.s = global.controller.map.getVeg(myPoint.south + 1, myPoint.east);
+        _char._socket.game.nose.s = global.controller.world.get(myPoint.south + 1, myPoint.east).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.nose.veg.se = global.controller.map.getVeg(myPoint.x + 1, myPoint.y + 1);
-        _char._socket.game.nose.se = global.controller.world.get(myPoint.x + 1, myPoint.y + 1).filter((item) => {
+        _char._socket.game.nose.veg.se = global.controller.map.getVeg(myPoint.south + 1, myPoint.east + 1);
+        _char._socket.game.nose.se = global.controller.world.get(myPoint.south + 1, myPoint.east + 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.nose.veg.sw = global.controller.map.getVeg(myPoint.x - 1, myPoint.y + 1);
-        _char._socket.game.nose.sw = global.controller.world.get(myPoint.x - 1, myPoint.y + 1).filter((item) => {
+        _char._socket.game.nose.veg.sw = global.controller.map.getVeg(myPoint.south + 1, myPoint.east - 1);
+        _char._socket.game.nose.sw = global.controller.world.get(myPoint.south + 1, myPoint.east - 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.nose.veg.e = global.controller.map.getVeg(myPoint.x + 1, myPoint.y);
-        _char._socket.game.nose.e = global.controller.world.get(myPoint.x + 1, myPoint.y).filter((item) => {
+        _char._socket.game.nose.veg.e = global.controller.map.getVeg(myPoint.south, myPoint.east + 1);
+        _char._socket.game.nose.e = global.controller.world.get(myPoint.south, myPoint.east + 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.nose.veg.w = global.controller.map.getVeg(myPoint.x - 1, myPoint.y);
-        _char._socket.game.nose.w = global.controller.world.get(myPoint.x - 1, myPoint.y).filter((item) => {
+        _char._socket.game.nose.veg.w = global.controller.map.getVeg(myPoint.south, myPoint.east - 1);
+        _char._socket.game.nose.w = global.controller.world.get(myPoint.south, myPoint.east - 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
@@ -177,7 +177,7 @@ export default class Smell {
 
         let myGrid = _char.position;
         let myPoint = global.controller.world.gridToXY(myGrid);
-        let veg = global.controller.map.getVeg(myPoint.x, myPoint.y);
+        let veg = global.controller.map.getVeg(myPoint.south, myPoint.east);
 
         if (veg) {
             message = { message: 'You smell nutrients' };
@@ -234,7 +234,7 @@ export default class Smell {
         let point = global.controller.world.gridToXY(myGrid);
 
         if (_socket.game.nose.old.n != _socket.game.nose.n) {
-            let place = global.controller.world.get(point.x, point.y - 1);
+            let place = global.controller.world.get(point.south - 1, point.east);
             let weight = 0;
             for (let item of place) {
                 if (undefined !== item.size) weight += item.size;
@@ -243,7 +243,7 @@ export default class Smell {
             _socket.emit('nose', message);
         }
         if (_socket.game.nose.old.s != _socket.game.nose.s) {
-            let place = global.controller.world.get(point.x, point.y + 1);
+            let place = global.controller.world.get(point.south + 1, point.east);
             let weight = 0;
             for (let item of place) {
                 if (undefined !== item.size) weight += item.size;
@@ -252,7 +252,7 @@ export default class Smell {
             _socket.emit('nose', message);
         }
         if (_socket.game.nose.old.e != _socket.game.nose.e) {
-            let place = global.controller.world.get(point.x - 1, point.y);
+            let place = global.controller.world.get(point.south, point.east - 1);
             let weight = 0;
             for (let item of place) {
                 if (undefined !== item.size) weight += item.size;
@@ -261,7 +261,7 @@ export default class Smell {
             _socket.emit('nose', message);
         }
         if (_socket.game.nose.old.w != _socket.game.nose.w) {
-            let place = global.controller.world.get(point.x + 1, point.y);
+            let place = global.controller.world.get(point.south, point.east + 1);
             let weight = 0;
             for (let item of place) {
                 if (undefined !== item.size) weight += item.size;
@@ -281,22 +281,22 @@ export default class Smell {
         let point = global.controller.world.gridToXY(myGrid);
 
         if (_socket.game.nose.old.n != _socket.game.nose.n) {
-            let place = global.controller.world.get(point.x, point.y - 1);
+            let place = global.controller.world.get(point.south - 1, point.east);
             message = { message: `I smell ${(place.length > 1) ? place.length + ' things' : 'something'} to the "n".` };
             _socket.emit('nose', message);
         }
         if (_socket.game.nose.old.s != _socket.game.nose.s) {
-            let place = global.controller.world.get(point.x, point.y + 1);
+            let place = global.controller.world.get(point.south + 1, point.east);
             message = { message: `I smell ${(place.length > 1) ? place.length + ' things' : 'something'} to the "s".` };
             _socket.emit('nose', message);
         }
         if (_socket.game.nose.old.e != _socket.game.nose.e) {
-            let place = global.controller.world.get(point.x - 1, point.y);
+            let place = global.controller.world.get(point.south, point.east - 1);
             message = { message: `I smell ${(place.length > 1) ? place.length + ' things' : 'something'} to the "e".` };
             _socket.emit('nose', message);
         }
         if (_socket.game.nose.old.w != _socket.game.nose.w) {
-            let place = global.controller.world.get(point.x + 1, point.y);
+            let place = global.controller.world.get(point.south, point.east + 1);
             message = { message: `I smell ${(place.length > 1) ? place.length + ' things' : 'something'} to the "w".` };
             _socket.emit('nose', message);
         }

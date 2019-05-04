@@ -100,49 +100,50 @@ export default class Ear {
         _char._socket.game.ear.old.sw = _char._socket.game.ear.sw;
         _char._socket.game.ear.old.e = _char._socket.game.ear.e;
         _char._socket.game.ear.old.w = _char._socket.game.ear.w;
-        _char._socket.game.ear.n = global.controller.world.get(myPoint.x, myPoint.y - 1).filter((item) => {
+
+        _char._socket.game.ear.n = global.controller.world.get(myPoint.south - 1, myPoint.east).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.ear.ne = global.controller.world.get(myPoint.x + 1, myPoint.y - 1).filter((item) => {
+        _char._socket.game.ear.ne = global.controller.world.get(myPoint.south - 1, myPoint.east + 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.ear.nw = global.controller.world.get(myPoint.x - 1, myPoint.y - 1).filter((item) => {
+        _char._socket.game.ear.nw = global.controller.world.get(myPoint.south - 1, myPoint.east - 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.ear.s = global.controller.world.get(myPoint.x, myPoint.y + 1).filter((item) => {
+        _char._socket.game.ear.s = global.controller.world.get(myPoint.south + 1, myPoint.east).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.ear.se = global.controller.world.get(myPoint.x + 1, myPoint.y + 1).filter((item) => {
+        _char._socket.game.ear.se = global.controller.world.get(myPoint.south + 1, myPoint.east + 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.ear.sw = global.controller.world.get(myPoint.x - 1, myPoint.y + 1).filter((item) => {
+        _char._socket.game.ear.sw = global.controller.world.get(myPoint.south + 1, myPoint.east - 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.ear.e = global.controller.world.get(myPoint.x + 1, myPoint.y).filter((item) => {
+        _char._socket.game.ear.e = global.controller.world.get(myPoint.south, myPoint.east + 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
             return false;
         }).length;
-        _char._socket.game.ear.w = global.controller.world.get(myPoint.x - 1, myPoint.y).filter((item) => {
+        _char._socket.game.ear.w = global.controller.world.get(myPoint.south, myPoint.east - 1).filter((item) => {
             if (undefined !== item.status && undefined !== item.size) {
                 return true;
             }
@@ -241,7 +242,7 @@ export default class Ear {
         let point = global.controller.world.gridToXY(myGrid);
 
         if (_socket.game.ear.old.n != _socket.game.ear.n) {
-            let place = global.controller.world.get(point.x, point.y - 1);
+            let place = global.controller.world.get(point.east, point.south - 1);
             let weight = 0;
             for (let item of place) {
                 if (undefined !== item.size) weight += item.size;
@@ -250,7 +251,7 @@ export default class Ear {
             _socket.emit('ears', message);
         }
         if (_socket.game.ear.old.s != _socket.game.ear.s) {
-            let place = global.controller.world.get(point.x, point.y + 1);
+            let place = global.controller.world.get(point.south + 1, point.east);
             let weight = 0;
             for (let item of place) {
                 if (undefined !== item.size) weight += item.size;
@@ -259,7 +260,7 @@ export default class Ear {
             _socket.emit('ears', message);
         }
         if (_socket.game.ear.old.e != _socket.game.ear.e) {
-            let place = global.controller.world.get(point.x - 1, point.y);
+            let place = global.controller.world.get(point.south, point.east - 1);
             let weight = 0;
             for (let item of place) {
                 if (undefined !== item.size) weight += item.size;
@@ -268,7 +269,7 @@ export default class Ear {
             _socket.emit('ears', message);
         }
         if (_socket.game.ear.old.w != _socket.game.ear.w) {
-            let place = global.controller.world.get(point.x + 1, point.y);
+            let place = global.controller.world.get(point.south, point.east + 1);
             let weight = 0;
             for (let item of place) {
                 if (undefined !== item.size) weight += item.size;
@@ -277,7 +278,7 @@ export default class Ear {
             _socket.emit('ears', message);
         }
     }
-    
+
     verySensitiveHearing(_socket) {
         let message;
 
@@ -305,7 +306,7 @@ export default class Ear {
             }
             _socket.emit('ears', message);
         }
-        
+
         if (_socket.game.ear.old.s != _socket.game.ear.s) {
             if (_socket.game.ear.old.s < _socket.game.ear.s) {
                 message = { message: 'You hear something approaching from the "s"' };
@@ -330,7 +331,7 @@ export default class Ear {
             }
             _socket.emit('ears', message);
         }
-        
+
         if (_socket.game.ear.old.e != _socket.game.ear.e) {
             if (_socket.game.ear.old.e < _socket.game.ear.e) {
                 message = { message: 'You hear something approaching from the "e"' };

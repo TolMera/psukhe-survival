@@ -16,22 +16,22 @@ export default class Perform {
 
         switch (_intent.dir) {
             case 'n': {
-                newPoint.x--;
+                newPoint.south--;
                 global.controller.world.set(newPoint, char);
                 break;
             }
             case 's': {
-                newPoint.x++;
+                newPoint.south++;
                 global.controller.world.set(newPoint, char);
                 break;
             }
             case 'e': {
-                newPoint.y++;
+                newPoint.east++;
                 global.controller.world.set(newPoint, char);
                 break;
             }
             case 'w': {
-                newPoint.y--;
+                newPoint.east--;
                 global.controller.world.set(newPoint, char);
                 break;
             }
@@ -50,22 +50,22 @@ export default class Perform {
         let place;
         switch (_intent.dir) {
             case 'n': {
-                newPoint.y--;
+                newPoint.south--;
                 place = global.controller.world.get(char.position);
                 break;
             }
             case 's': {
-                newPoint.y++;
+                newPoint.south++;
                 place = global.controller.world.get(char.position);
                 break;
             }
             case 'e': {
-                newPoint.x++;
+                newPoint.east++;
                 place = global.controller.world.get(char.position);
                 break;
             }
             case 'w': {
-                newPoint.x--;
+                newPoint.east--;
                 place = global.controller.world.get(char.position);
                 break;
             }
@@ -161,27 +161,27 @@ export default class Perform {
     doEat(_socket, _intent) {
         let char = _socket.game.character;
 
-        let newPoint = global.controller.world.gridToXY(char.position);
+        let point = global.controller.world.gridToXY(char.position);
         let food = false;
         switch (_intent.dir) {
             case 'n': {
-                newPoint.y--;
-                food = global.controller.map.getVeg(newPoint.x, newPoint.y);
+                point.south--;
+                food = global.controller.map.getVeg(point.south, point.east);
                 break;
             }
             case 's': {
-                newPoint.y++;
-                food = global.controller.map.getVeg(newPoint.x, newPoint.y);
+                point.south++;
+                food = global.controller.map.getVeg(point.south, point.east);
                 break;
             }
             case 'e': {
-                newPoint.x++;
-                food = global.controller.map.getVeg(newPoint.x, newPoint.y);
+                point.east++;
+                food = global.controller.map.getVeg(point.south, point.east);
                 break;
             }
             case 'w': {
-                newPoint.x--;
-                food = global.controller.map.getVeg(newPoint.x, newPoint.y);
+                point.east--;
+                food = global.controller.map.getVeg(point.south, point.east);
                 break;
             }
         }
@@ -196,7 +196,6 @@ export default class Perform {
 
             char.status.hunger += 1 + bonus;
             if (char.status.hunger > 100) char.status.hunger = 100;
-
             char._socket.emit("message", { message: "You found something to eat" });
         } else {
             char._socket.emit("message", { message: "There was nothing to eat there" });
@@ -206,27 +205,27 @@ export default class Perform {
     doDrink(_socket, _intent) {
         let char = _socket.game.character;
 
-        let newPoint = global.controller.world.gridToXY(char.position);
+        let point = global.controller.world.gridToXY(char.position);
         let water = false;
         switch (_intent.dir) {
             case 'n': {
-                newPoint.y--;
-                water = global.controller.map.getWater(newPoint.x, newPoint.y);
+                point.south--;
+                water = global.controller.map.getWater(point.south, point.east);
                 break;
             }
             case 's': {
-                newPoint.y++;
-                water = global.controller.map.getWater(newPoint.x, newPoint.y);
+                point.south++;
+                water = global.controller.map.getWater(point.south, point.east);
                 break;
             }
             case 'e': {
-                newPoint.x++;
-                water = global.controller.map.getWater(newPoint.x, newPoint.y);
+                point.east++;
+                water = global.controller.map.getWater(point.south, point.east);
                 break;
             }
             case 'w': {
-                newPoint.x--;
-                water = global.controller.map.getWater(newPoint.x, newPoint.y);
+                point.east--;
+                water = global.controller.map.getWater(point.south, point.east);
                 break;
             }
         }
@@ -238,7 +237,7 @@ export default class Perform {
 
             char.status.thirst += 1 + bonus;
             if (char.status.thirst > 100) char.status.thirst = 100;
-            
+
             char._socket.emit("message", { message: "You took a drink" });
         } else {
             char._socket.emit("message", { message: "There was nothing to drink there" });
@@ -349,8 +348,8 @@ export default class Perform {
             }
         }
         _socket.emit("message", { message: `Your trade was not forfilled because "${_intent.id}" count not be found.` });
-
     }
+    
     doTradeThirst(_socket, _intent) {
         for (let char of global.controller.game.characters) {
             if (

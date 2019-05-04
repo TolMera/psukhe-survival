@@ -86,11 +86,11 @@ export default class Eye {
         if (global.controller.world.day) {
             let myGrid = _socket.game.character.position;
             let myPoint = global.controller.world.gridToXY(myGrid);
-            let myHeight = global.controller.map.get(myPoint.x, myPoint.y);
+            let myHeight = global.controller.map.get( myPoint.south, myPoint.east);
 
             // case 'n': {
             let height;
-            height = global.controller.map.get(myPoint.x, myPoint.y - 1);
+            height = global.controller.map.get( myPoint.south - 1, myPoint.east);
             if (height > myHeight) {
                 let message = { message: `The ground to the "n" is higher` }
                 if (_socket.game.eye.greyscaleSight.n.message != JSON.stringify(message)) {
@@ -105,7 +105,7 @@ export default class Eye {
                 }
             }
             // case 's': {
-            height = global.controller.map.get(myPoint.x, myPoint.y + 1);
+            height = global.controller.map.get( myPoint.south + 1, myPoint.east);
             if (height > myHeight) {
                 let message = { message: `The ground to the "s" is higher` }
                 if (_socket.game.eye.greyscaleSight.s.message != JSON.stringify(message)) {
@@ -120,7 +120,7 @@ export default class Eye {
                 }
             }
             // case 'e': {
-            height = global.controller.map.get(myPoint.x + 1, myPoint.y);
+            height = global.controller.map.get( myPoint.south, myPoint.east + 1);
             if (height > myHeight) {
                 let message = { message: `The ground to the "e" is higher` }
                 if (_socket.game.eye.greyscaleSight.e.message != JSON.stringify(message)) {
@@ -135,7 +135,7 @@ export default class Eye {
                 }
             }
             // case 'w': {
-            height = global.controller.map.get(myPoint.x - 1, myPoint.y);
+            height = global.controller.map.get( myPoint.south, myPoint.east - 1);
             if (height > myHeight) {
                 let message = { message: `The ground to the "w" is higher` }
                 if (_socket.game.eye.greyscaleSight.w.message != JSON.stringify(message)) {
@@ -155,11 +155,11 @@ export default class Eye {
         if (global.controller.world.day) {
             let myGrid = _socket.game.character.position;
             let myPoint = global.controller.world.gridToXY(myGrid);
-            let myVeg = global.controller.map.getVeg(myPoint.x, myPoint.y);
+            let myVeg = global.controller.map.getVeg(myPoint.east, myPoint.south);
 
             // case 'n': {
             let veg;
-            veg = global.controller.map.get(myPoint.x, myPoint.y - 1);
+            veg = global.controller.map.get( myPoint.south - 1, myPoint.east);
             if (veg > myVeg) {
                 let message = { message: `The ground to the "n" has more vegetation` };
                 if (_socket.game.eye.twoColourSight.n.message != JSON.stringify(message)) {
@@ -174,7 +174,7 @@ export default class Eye {
                 }
             }
             // case 's': {
-            veg = global.controller.map.get(myPoint.x, myPoint.y + 1);
+            veg = global.controller.map.get( myPoint.south + 1, myPoint.east);
             if (veg > myVeg) {
                 let message = { message: `The ground to the "s" has more vegetation` };
                 if (_socket.game.eye.twoColourSight.s.message != JSON.stringify(message)) {
@@ -189,7 +189,7 @@ export default class Eye {
                 }
             }
             // case 'e': {
-            veg = global.controller.map.get(myPoint.x + 1, myPoint.y);
+            veg = global.controller.map.get( myPoint.south, myPoint.east + 1);
             if (veg > myVeg) {
                 let message = { message: `The ground to the "e" has more vegetation` };
                 if (_socket.game.eye.twoColourSight.e.message != JSON.stringify(message)) {
@@ -204,7 +204,7 @@ export default class Eye {
                 }
             }
             // case 'w': {
-            veg = global.controller.map.get(myPoint.x - 1, myPoint.y);
+            veg = global.controller.map.get( myPoint.south, myPoint.east - 1);
             if (veg > myVeg) {
                 let message = { message: `The ground to the "w" has more vegetation` };
                 if (_socket.game.eye.twoColourSight.w.message != JSON.stringify(message)) {
@@ -227,7 +227,7 @@ export default class Eye {
 
             // case 'n': {
             let place;
-            place = global.controller.world.get(myPoint.x, myPoint.y - 1);
+            place = global.controller.world.get( myPoint.south - 1, myPoint.east);
             place.filter((thing) => {
                 if (undefined !== thing.traits && thing.traits.includes('Camoflage')) {
                     return false;
@@ -242,7 +242,7 @@ export default class Eye {
                 }
             }
             // case 's': {
-            place = global.controller.world.get(myPoint.x, myPoint.y + 1);
+            place = global.controller.world.get( myPoint.south + 1, myPoint.east);
             place.filter((thing) => {
                 if (undefined !== thing.traits && thing.traits.includes('Camoflage')) {
                     return false;
@@ -257,7 +257,7 @@ export default class Eye {
                 }
             }
             // case 'e': {
-            place = global.controller.world.get(myPoint.x + 1, myPoint.y);
+            place = global.controller.world.get( myPoint.south, myPoint.east + 1);
             place.filter((thing) => {
                 if (undefined !== thing.traits && thing.traits.includes('Camoflage')) {
                     return false;
@@ -272,7 +272,7 @@ export default class Eye {
                 }
             }
             // case 'w': {
-            place = global.controller.world.get(myPoint.x - 1, myPoint.y);
+            place = global.controller.world.get( myPoint.south, myPoint.east - 1);
             place.filter((thing) => {
                 if (undefined !== thing.traits && thing.traits.includes('Camoflage')) {
                     return false;
@@ -294,7 +294,7 @@ export default class Eye {
 
         // case 'n': {
         let place;
-        place = global.controller.world.get(myPoint.x, myPoint.y - 1);
+        place = global.controller.world.get( myPoint.south - 1, myPoint.east);
         if (place.length > 0) {
             let map = place.map((item) => {
                 if (undefined !== item.status && undefined !== item.status.HP) {
@@ -310,7 +310,7 @@ export default class Eye {
             }
         }
         // case 's': {
-        place = global.controller.world.get(myPoint.x, myPoint.y + 1);
+        place = global.controller.world.get( myPoint.south + 1, myPoint.east);
         if (place.length > 0) {
             let map = place.map((item) => {
                 if (undefined !== item.status && undefined !== item.status.HP) {
@@ -326,7 +326,7 @@ export default class Eye {
             }
         }
         // case 'e': {
-        place = global.controller.world.get(myPoint.x + 1, myPoint.y);
+        place = global.controller.world.get( myPoint.south, myPoint.east + 1);
         if (place.length > 0) {
             let map = place.map((item) => {
                 if (undefined !== item.status && undefined !== item.status.HP) {
@@ -342,7 +342,7 @@ export default class Eye {
             }
         }
         // case 'w': {
-        place = global.controller.world.get(myPoint.x - 1, myPoint.y);
+        place = global.controller.world.get( myPoint.south, myPoint.east - 1);
         if (place.length > 0) {
             let map = place.map((item) => {
                 if (undefined !== item.status && undefined !== item.status.HP) {

@@ -84,10 +84,10 @@ init().then(() => {
 
             let map = '<table class="col-12" cellspacing="0" cellpadding="1">';
             let i = 0;
-            for (let x = 0; x < global.controller.world.cubeSide; x++) {
+            for (let east = 0; east < global.controller.world.cubeSide; east++) {
                 map += "<tr>";
-                for (let y = 0; y < global.controller.world.cubeSide; y++) {
-                    let place = global.controller.world.get(x, y);
+                for (let south = 0; south < global.controller.world.cubeSide; south++) {
+                    let place = global.controller.world.get(south, east);
                     if (mapTable[i]) {
                         if (place.length > 0) {
                             map += `<td style="background-color: rgb(0, 0, 0);"></td>`;

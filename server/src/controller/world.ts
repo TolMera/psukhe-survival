@@ -5,33 +5,33 @@ export default class World {
 
     constructor() {
         let config = require('../helper/configs').default;
-        
+
         // Fill array of X length with arrays
         this.cubeSide = 256;
         this.grid = [];
-        for (let x = 0; x < this.cubeSide * this.cubeSide; x++) {
-            this.grid[x] = [];
+        for (let south = 0; south < this.cubeSide * this.cubeSide; south++) {
+            this.grid[south] = [];
         }
-        
+
         this.day = true;
         setInterval(() => {
             this.day != this.day;
         }, config.world.dayLength);
     }
 
-    get(_x: number, _y: number) {
-        return this.grid[this.xyToGrid(_x, _y)];
+    get(_south: number, _east: number) {
+        return this.grid[this.xyToGrid(_south, _east)];
     }
 
     set(_point, _object) {
-        let grid = this.xyToGrid(_point.x, _point.y);
+        let grid = this.xyToGrid(_point.south, _point.east);
         if (grid < 0) grid = 0;
         if (grid > this.cubeSide * this.cubeSide - 1) grid = this.cubeSide * this.cubeSide - 1;
         this.grid[grid].push(_object);
         _object.position = grid;
-        
+
         if (undefined !== _object.status && undefined !== _object.status.oxygen) {
-            let height = global.controller.map.get(_point.x, _point.y);
+            let height = global.controller.map.get(_point.south, _point.east);
             if (height > global.controller.map.waterLevel) {
                 _object.airType = "air";
             } else {
@@ -49,24 +49,22 @@ export default class World {
         }
     }
 
-    xyToGrid(_x: number, _y: number) {
-        let x = _x;
-        let y = _y * this.cubeSide;
-        return x + y;
+    xyToGrid(_south: number, _east: number) {
+        return _east + (_south * this.cubeSide);
     }
 
     gridToXY(_grid: number) {
-        let x = _grid % global.controller.world.cubeSide;
-        if (x > 1023) x = 1023;
-        if (x < 0) x = 0;
+        let east = _grid % this.cubeSide;
+        let south = Math.floor(_grid / this.cubeSide);
         
-        let y = Math.floor(_grid / global.controller.world.cubeSide);
-        if (y > 1023) y = 1023;
-        if (y < 0) y = 0;
-        
-        return { x, y };
+        if (east > 1023) east = 1023;
+        if (east < 0) east = 0;
+        if (south > 1023) south = 1023;
+        if (south < 0) south = 0;
+
+        return { south, east };
     }
-    
+
     /**
      * What happens when someone dies
      */

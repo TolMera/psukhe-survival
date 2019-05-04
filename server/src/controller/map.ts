@@ -45,9 +45,9 @@ export default class Map extends require('./controller').default {
         let min = 1;
         let max = -1;
         let heights = [];
-        for (let x = 0; x < global.controller.world.cubeSide; x++) {
-            for (let y = 0; y < global.controller.world.cubeSide; y++) {
-                let v = this.get(x, y);
+        for (let south = 0; south < global.controller.world.cubeSide; south++) {
+            for (let east = 0; east < global.controller.world.cubeSide; east++) {
+                let v = this.get(south, east);
                 heights.push(v);
                 if (v < min) min = v;
                 if (v > max) max = v;
@@ -82,11 +82,11 @@ export default class Map extends require('./controller').default {
         let min = 1;
         let max = -1;
         let heights = [];
-        for (let x = 0; x < global.controller.world.cubeSide; x++) {
-            for (let y = 0; y < global.controller.world.cubeSide; y++) {
+        for (let south = 0; south < global.controller.world.cubeSide; south++) {
+            for (let east = 0; east < global.controller.world.cubeSide; east++) {
                 let v = this.vegetationMap.get([
-                    x / global.controller.world.cubeSide,
-                    y / global.controller.world.cubeSide
+                    south / global.controller.world.cubeSide,
+                    east / global.controller.world.cubeSide
                 ]);
                 if (v < min) min = v;
                 if (v > max) max = v;
@@ -107,10 +107,10 @@ export default class Map extends require('./controller').default {
      * @param {number} y
      * @returns {number}
      */
-    get(x: number, y: number): number {
+    get(_south: number, _east: number): number {
         return this.map.get([
-            x / global.controller.world.cubeSide,
-            y / global.controller.world.cubeSide
+            _south / global.controller.world.cubeSide,
+            _east / global.controller.world.cubeSide
         ]);
     }
 
@@ -120,16 +120,16 @@ export default class Map extends require('./controller').default {
      * @param {number} y
      * @returns {boolean}
      */
-    getVeg(x: number, y: number): boolean {
+    getVeg(_south: number, _east: number): boolean {
         return this.vegetationMap.get([
-            x / global.controller.world.cubeSide,
-            y / global.controller.world.cubeSide
+            _south / global.controller.world.cubeSide,
+            _east / global.controller.world.cubeSide
         ]) >= this.vegetationLevel;
     }
-    getRawVeg(x: number, y: number): boolean {
+    getRawVeg(_south: number, _east: number): boolean {
         return this.vegetationMap.get([
-            x / global.controller.world.cubeSide,
-            y / global.controller.world.cubeSide
+            _south / global.controller.world.cubeSide,
+            _east / global.controller.world.cubeSide
         ]);
     }
 
@@ -139,10 +139,10 @@ export default class Map extends require('./controller').default {
      * @param {number} y
      * @returns {boolean}
      */
-    getWater(x: number, y: number): boolean {
+    getWater(_south: number, _east: number): boolean {
         return this.map.get([
-            x / global.controller.world.cubeSide,
-            y / global.controller.world.cubeSide
+            _south / global.controller.world.cubeSide,
+            _east / global.controller.world.cubeSide
         ]) >= this.waterLevel;
     }
 
@@ -159,15 +159,15 @@ export default class Map extends require('./controller').default {
         for (let i = 0; i < global.controller.world.cubeSide * global.controller.world.cubeSide; i += 1) {
             let xy = global.controller.world.gridToXY(i);
 
-            let water = Math.round(this.getWater(xy.x, xy.y) ? 192 : 0);
+            let water = Math.round(this.getWater(xy.south, xy.east) ? 192 : 0);
             let land;
             // if (0 == water) {
-                land = 255 - Math.round((this.get(xy.x, xy.y) - this.mapMin) * (255 / (this.mapMax - this.mapMin)));
+                land = 255 - Math.round((this.get(xy.south, xy.east) - this.mapMin) * (255 / (this.mapMax - this.mapMin)));
             // } else {
                 // land = 0;
             // }
             // land = 0;
-            let veg = this.getRawVeg(xy.x, xy.y);
+            let veg = this.getRawVeg(xy.south, xy.east);
             // if (veg < this.vegetationLevel) {
                 // veg = 0;
             // }
