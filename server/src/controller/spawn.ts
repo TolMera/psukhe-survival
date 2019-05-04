@@ -34,7 +34,7 @@ export default class Spawner {
         spawnPoint = Math.floor(Math.random() * spawnPoint);
         let point = global.controller.world.gridToXY(spawnPoint);
 
-        // console.log(`Spawn point x: ${point.x}, y: ${point.y}`);
+        // console.log(`Spawn point x: ${point.east}, y: ${point.south}`);
 
         // Create a character
         let character = this.createCharacter(_socket);

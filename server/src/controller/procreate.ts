@@ -62,8 +62,8 @@ export default class Procreate {
         let myPoint = global.controller.world.gridToXY(myGrid);
         let theirPoint = global.controller.world.gridToXY(theirGrid);
 
-        if (theirPoint.x >= myPoint.x - 1 && theirPoint.x <= myPoint.x + 1) {
-            if (theirPoint.y >= myPoint.y - 1 && theirPoint.y <= myPoint.y + 1) {
+        if (theirPoint.east >= myPoint.east - 1 && theirPoint.east <= myPoint.east + 1) {
+            if (theirPoint.south >= myPoint.south - 1 && theirPoint.south <= myPoint.south + 1) {
                 _socket.emit("message", { message: `You begin performing a courtship dance.  Stay close to them while they think about it.` });
                 partner._socket.emit("message", {message: `${_socket.id} is performing a cortship display for you.  Do you wish to accept?`});
                 partner.potentialPartner = char;
@@ -80,8 +80,8 @@ export default class Procreate {
         let myPoint = global.controller.world.gridToXY(myGrid);
         let theirPoint = global.controller.world.gridToXY(theirGrid);
 
-        if (theirPoint.x >= myPoint.x - 1 && theirPoint.x <= myPoint.x + 1) {
-            if (theirPoint.y >= myPoint.y - 1 && theirPoint.y <= myPoint.y + 1) {
+        if (theirPoint.east >= myPoint.east - 1 && theirPoint.east <= myPoint.east + 1) {
+            if (theirPoint.south >= myPoint.south - 1 && theirPoint.south <= myPoint.south + 1) {
                 _socket.emit("message", { message: `You accept - you are now pregnant` });
                 partner._socket.emit("message", {message: `${_socket.id} accepted your performance and has become pregnant.`});
                 partner.potentialPartner = undefined;

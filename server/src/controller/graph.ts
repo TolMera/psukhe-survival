@@ -33,7 +33,7 @@ export default class Graph {
         let table = `<table class="table col-12" cellspacing="0" cellpadding="1">`;
         table += `<tr><td>Name</td><td>Score</td><td>Position</td></tr>`;
         for (let player of top) {
-            table += `<tr><td>${player.id}</td><td>${player.time}</td><td>x: ${player.position.x}, y: ${player.position.y}</td></tr>`;
+            table += `<tr><td>${player.id}</td><td>${player.time}</td><td>East: ${player.position.east}, South: ${player.position.south}</td></tr>`;
         }
         table += "</table>";
         this.top = table;
