@@ -20,8 +20,9 @@ export default class Perform {
 
         switch (_intent.dir) {
             case 'n': {
-                if (point.south - 1 >= global.controller.world.cubeSide) {
-                    point.south = global.controller.world.cubeSide - 1;
+                if (point.south - 1 >= 0) {
+                    point.south = 0;
+                    char._socket.emit("message", { message: `You have encountered impassable terrain.` });
                 } else {
                     point.south--;
                 }
@@ -31,6 +32,7 @@ export default class Perform {
             case 's': {
                 if (point.south + 1 >= global.controller.world.cubeSide) {
                     point.south = global.controller.world.cubeSide - 1;
+                    char._socket.emit("message", { message: `You have encountered impassable terrain.` });
                 } else {
                     point.south++;
                 }
@@ -40,6 +42,7 @@ export default class Perform {
             case 'e': {
                 if (point.east + 1 >= global.controller.world.cubeSide) {
                     point.east = global.controller.world.cubeSide - 1;
+                    char._socket.emit("message", { message: `You have encountered impassable terrain.` });
                 } else {
                     point.east++;
                 }
@@ -47,8 +50,9 @@ export default class Perform {
                 break;
             }
             case 'w': {
-                if (point.east - 1 >= global.controller.world.cubeSide) {
-                    point.east = global.controller.world.cubeSide - 1;
+                if (point.east - 1 >= 0) {
+                    point.east = 0;
+                    char._socket.emit("message", { message: `You have encountered impassable terrain.` });
                 } else {
                     point.east--;
                 }
