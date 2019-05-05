@@ -18,6 +18,7 @@ export default class Socket {
         });
         let id = 0;
         this.socket.on('connection', (_socket: any) => {
+            console.log("connection", _socket.id);
 
             _socket.on('joinGame', () => {
                 /**
