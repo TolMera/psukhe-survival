@@ -1,16 +1,25 @@
 export default class Mind {
-    hunger: number;
-    thirst: number;
-    oxygen: number;
+    hunger: boolean;
+    thirst: boolean;
+    oxygen: boolean;
+    position: coordinate;
 
-    lastAction: string;
+    goto: Function | undefined;
 
     constructor() {
         this.config = require('../helper/configs').default;
+        
+        this.position = {south: 0, east: 0};
 
-        this.thirst = 0;
-        this.hunger = 0;
-        this.oxygen = 0;
+        this.thirst = false;
+        this.waterMap = new (require('./map.ts'));
+        
+        this.oxygen = false;  // Dont need an oxygen map, because it would be the opposite of the water map?
+        
+        this.hunger = false;
+        this.foodMap = new (require('./map.ts'));
+
+        this.goto = undefined;
 
         // A little timeout to give everythint time to load in the background
         setTimeout(() => {
@@ -23,69 +32,37 @@ export default class Mind {
     }
 
     tick() {
-        switch (true) {
-            case (this.hunger > this.thirst && this.hunger > this.oxygen): {
-                switch (this.lastAction) {
-                    default:
-                    case 'move':
-                        global.controller.intent.eat('n');
-                        this.lastAction = 'eatN';
-                        break;
-                    case 'eatN':
-                        global.controller.intent.eat('e');
-                        this.lastAction = 'eatE';
-                        break;
-                    case 'eatE':
-                        global.controller.intent.eat('s');
-                        this.lastAction = 'eatS';
-                        break;
-                    case 'eatS':
-                        global.controller.intent.eat('w');
-                        this.lastAction = 'eatW';
-                        break;
-                    case 'eatW':
-                        let dir = ['n', 's', 'e', 'w'];
-                        global.controller.intent.move(dir[Math.floor(Math.random() * dir.length)]);
-                        this.lastAction = 'move';
-                        break;
-                }
-                break;
-            }
-            case (this.thirst > this.hunger && this.thirst > this.oxygen): {
-                switch (this.lastAction) {
-                    default:
-                    case 'move':
-                        global.controller.intent.drink('n');
-                        this.lastAction = 'drinkN';
-                        break;
-                    case 'drinkN':
-                        global.controller.intent.drink('e');
-                        this.lastAction = 'drinkE';
-                        break;
-                    case 'drinkE':
-                        global.controller.intent.drink('s');
-                        this.lastAction = 'drinkS';
-                        break;
-                    case 'drinkS':
-                        global.controller.intent.drink('w');
-                        this.lastAction = 'drinkW';
-                        break;
-                    case 'drinkW':
-                        let dir = ['n', 's', 'e', 'w'];
-                        global.controller.intent.move(dir[Math.floor(Math.random() * dir.length)]);
-                        this.lastAction = 'move';
-                        break;
-                }
-                break;
-            }
-            default: {
-                // Your need for Oxygen is greater than your need for anything else
-                // Without any organs you can't tell which way is up.
-                // Guess you're just going to keep walking randomly around until you stop suffocating
-                let dir = ['n', 's', 'e', 'w'];
-                global.controller.intent.move(dir[Math.floor(Math.random() * dir.length)]);
-                this.lastAction = 'move';
-            }
+        if (typeof (this.goto) == typeof (function () { })) {
+            return this.goto();
         }
+        if (this.hunger) {
+            this.goto = this.doHunger;
+            return this.doHunger();
+        }
+        if (this.thirst) {
+            this.goto = this.doThirst;
+            return this.doThirst();
+        }
+        if (this.oxygen) {
+            this.goto = this.doOxygen;
+            return this.doOxygen();
+        }
+        return this.explore();
+    }
+
+    doHunger() {
+
+    }
+
+    doThirst() {
+
+    }
+
+    doOxygen() {
+
+    }
+    
+    explore() {
+        
     }
 }

@@ -10,8 +10,8 @@ export default {
         tick: 1000 / 20, // = 50
     },
     server: {
-        dns: "ec2-52-56-250-10.eu-west-2.compute.amazonaws.com",
-        ip: "52.56.250.10",
+        dns: "localhost",
+        ip: "127.0.0.1",
         port: 81
     }
 }

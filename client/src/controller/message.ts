@@ -11,44 +11,30 @@ export default class Message {
 
         //Hunger
         else if (`I really need to eat` == data.message) {
-            global.controller.mind.hunger += 3;
-            console.log(data.message);
+            global.controller.mind.hunger = true;
         }
         else if (`I feel fairly hungry` == data.message) {
-            global.controller.mind.hunger += 2;
-            console.log(data.message);
         }
         else if (`I feel a little hungry` == data.message) {
-            global.controller.mind.hunger += 1;
-            console.log(data.message);
+            global.controller.mind.hunger = false;
         }
 
         // Thirst
         else if (`I really need to drink something` == data.message) {
-            global.controller.mind.thirst += 3;
-            console.log(data.message);
+            global.controller.mind.thirst = true;
         }
         else if (`I feel fairly thirsty` == data.message) {
-            global.controller.mind.thirst += 2;
-            console.log(data.message);
         }
         else if (`I feel a little thirsty` == data.message) {
-            global.controller.mind.thirst += 1;
-            console.log(data.message);
+            global.controller.mind.thirst = false;
         }
 
         // Oxygen
         else if (`I need some air` == data.message) {
-            global.controller.mind.oxygen += 3;
-            console.log(data.message);
+            global.controller.mind.oxygen = true;
         }
         else if (`I'm holding my breath` == data.message) {
-            global.controller.mind.oxygen += 2;
-            console.log(data.message);
-        }
-        else if (`I'm feeling a little scratched up` == data.message) {
-            global.controller.mind.oxygen += 1;
-            console.log(data.message);
+            global.controller.mind.oxygen = false;
         }
 
         // Death
@@ -84,12 +70,7 @@ export default class Message {
         }
 
         else {
-            console.log(data.message);
-            if (data.options) {
-                for (let index in data.options) {
-                    console.log(index, ':', data.options[index].name);
-                }
-            }
+            console.log(data);
         }
     }
 }

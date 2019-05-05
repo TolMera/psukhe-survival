@@ -27,6 +27,7 @@
   "homepage": "https://github.com/TolMera/LD44#readme",
   "dependencies": {
     "@types/node": "^11.13.8",
+    "kd-tree-javascript": "^1.0.3",
     "socket.io-client": "^2.2.0"
   }
 }
