@@ -1,10 +1,12 @@
 export default class Socket {
+    mapConnections: Array<Socket>;
+    socket: Socket;
 
     constructor(_path: string) {
         let config = require('../helper/configs').default;
 
         var http = require('http').createServer();
-        let socket = require('socket.io')(
+        this.socket = require('socket.io')(
             http, {
                 path: '/',
                 // transports: ['websocket', 'polling']
@@ -15,24 +17,39 @@ export default class Socket {
             port: 81
         });
         let id = 0;
-        socket.on('connection', (_socket: any) => {
-            /**
-             * Make the socket carry around a reference to the character int he game
-             */
-            _socket.game = {
-            };
+        this.socket.on('connection', (_socket: any) => {
 
-            console.log(`New connection from ${_socket.conn.id}`);
-            // console.log(`Spawning new characted`);
-            global.controller.spawn.newCharacter(_socket).then((character) => {
-                _socket.game.character = character;
+            _socket.on('joinGame', () => {
+                /**
+                 * Make the socket carry around a reference to the character int he game
+                 */
+                _socket.game = {
+                };
 
-                // Cant have intention before being spawned
-                _socket.on('intention', function (data) {
-                    global.controller.intention.add(_socket, data);
+                console.log(`New connection from ${_socket.conn.id}`);
+                // console.log(`Spawning new characted`);
+                global.controller.spawn.newCharacter(_socket).then((character) => {
+                    _socket.game.character = character;
+
+                    // Cant have intention before being spawned
+                    _socket.on('intention', function (data) {
+                        global.controller.intention.add(_socket, data);
+                    });
                 });
             });
 
+            _socket.on('showMap', () => {
+                console.log('Connection to map established');
+                _socket.join('showMap');
+                _socket.on('disconnect', () => {
+                    _socket.disconnect();
+                });
+            });
         });
+    }
+    
+    sendToMap(eventType, body) {
+        console.log(arguments);
+        this.socket.to('showMap').emit(eventType, body);
     }
 }
