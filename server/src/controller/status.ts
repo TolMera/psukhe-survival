@@ -5,54 +5,18 @@ export default class Status {
     deaths: any;
     constructor() {
         let config = require('../helper/configs').default;
-        
+
         this.deaths = [];
 
         setTimeout(() => {
             setInterval(() => {
-                // console.log("status update");
                 for (let char of global.controller.game.characters) {
                     char.status.hunger -= 1;
                     char.status.thirst -= 2;
 
-                    // TODO: I would love to add a gradient here, so if you have been under water with lungs, and you surface (with low oxygen) you will breath harder, create more noise, but also get more oxygen
-                    let hasTrait = false;
-                    for (let trait of global.controller.evpoint.options.lungs) {
-                        if (char.traits.includes(trait)) {
-                            hasTrait = true;
-                            switch (trait.name) {
-                                case 'Gills': {
-                                    if (undefined !== char.airType && char.airType == 'water') {
-                                        char.status.oxygen += 1.25;
-                                    }
-                                    break;
-                                }
-                                case 'lungs': {
-                                    if (undefined !== char.airType && char.airType == 'air') {
-                                        char.status.oxygen += 1.25;
-                                    }
-                                    break;
-                                }
-                                case 'Oxygenated blood': {
-                                    // 25% longer lasting breath
-                                    char.status.oxygen += 0.25;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    if (hasTrait) {
-                        // They are an aomeba and will maintain a level of oxygen regardless.
-                        // This should have an effect, like aomeba's can't have legs or wings.
-                        char.status.oxygen--;
-                    }
-
-                    if (char.status.oxygen > 100) char.status.oxygen = 100;
-
-                    this.keepAlive(char);
+                    this.breath(char);
                     this.health(char);
-
+                    this.keepAlive(char);
                     this.think(char);
                 }
             }, config.game.waittime.status);
@@ -150,34 +114,36 @@ export default class Status {
         let death = false;
         if (_char.status.HP <= 0) {
             _char._socket.emit("message", { message: 'Someone made a meal out of you' });
-            this.deaths.push(`${_char.name||_char._socket.id} died from their wounds`);
+            this.deaths.push(`${_char.name || _char._socket.id} died from their wounds`);
             death = true;
         }
         if (_char.status.hunger <= 0) {
             _char._socket.emit("message", { message: 'You died from hunger' });
-            this.deaths.push(`${_char.name||_char._socket.id} died from hunger`);
+            this.deaths.push(`${_char.name || _char._socket.id} died from hunger`);
             death = true;
         }
         if (_char.status.thirst <= 0) {
             _char._socket.emit("message", { message: 'You died from thirst' });
-            this.deaths.push(`${_char.name||_char._socket.id} died from thirst`);
+            this.deaths.push(`${_char.name || _char._socket.id} died from thirst`);
             death = true;
         }
         if (_char.status.oxygen <= 0) {
             _char._socket.emit("message", { message: 'You died from an accute lack of oxygen' });
-            this.deaths.push(`${_char.name||_char._socket.id} died from suffocation`);
+            this.deaths.push(`${_char.name || _char._socket.id} died from suffocation`);
             death = true;
-        }
-        
-        if (this.deaths.length > 50) {
-            this.deaths.shift();
         }
 
         if (death) {
+            global.controller.socket.sendToMap('remove', _char.position);
+
             global.controller.world.death(_char);
             global.controller.game.death(_char);
 
             _char._socket.disconnect();
+        }
+
+        if (this.deaths.length > 50) {
+            this.deaths.shift();
         }
     }
 
@@ -190,5 +156,42 @@ export default class Status {
             _char.status.HP++;
             if (_char.status.HP > 100) _char.status.HP = 100;
         }
+    }
+
+    breath(_char) {
+        // TODO: I would love to add a gradient here, so if you have been under water with lungs, and you surface (with low oxygen) you will breath harder, create more noise, but also get more oxygen
+        let hasTrait = false;
+        for (let trait of global.controller.evpoint.options.lungs) {
+            if (_char.traits.includes(trait)) {
+                hasTrait = true;
+                switch (trait.name) {
+                    case 'Gills': {
+                        if (undefined !== _char.airType && _char.airType == 'water') {
+                            _char.status.oxygen += 1.25;
+                        }
+                        break;
+                    }
+                    case 'lungs': {
+                        if (undefined !== _char.airType && _char.airType == 'air') {
+                            _char.status.oxygen += 1.25;
+                        }
+                        break;
+                    }
+                    case 'Oxygenated blood': {
+                        // 25% longer lasting breath
+                        _char.status.oxygen += 0.25;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (hasTrait) {
+            // They are an aomeba and will maintain a level of oxygen regardless.
+            // This should have an effect, like aomeba's can't have legs or wings.
+            _char.status.oxygen--;
+        }
+
+        if (_char.status.oxygen > 100) _char.status.oxygen = 100;
     }
 }
