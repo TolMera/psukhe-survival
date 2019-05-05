@@ -22,8 +22,10 @@ export default {
         },
     },
     server: {
-        dns: "ec2-52-56-250-10.eu-west-2.compute.amazonaws.com",
-        ip: "172.31.31.34",
+        // dns: "ec2-52-56-250-10.eu-west-2.compute.amazonaws.com",
+        // ip: "172.31.31.34",
+        dns: "localhost",
+        ip: "127.0.0.1",
         port: 81
     },
     spawn: {

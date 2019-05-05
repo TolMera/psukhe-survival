@@ -8,47 +8,45 @@ export default class Message {
         if (data.message.includes(`You have spawned`)) {
             console.log(data.message);
         }
+        
+        else if (`You took a drink` == data.message) {
+            global.controller.mind.thirsty--;
+            global.controller.mind.tookDrink();
+        }
+        
+        else if (`You found something to eat` == data.message) {
+            global.controller.mind.hungry--;
+            global.controller.mind.ateFood();
+        }
 
         //Hunger
         else if (`I really need to eat` == data.message) {
-            global.controller.mind.hunger += 3;
-            console.log(data.message);
+            global.controller.mind.hungry+=3;
         }
         else if (`I feel fairly hungry` == data.message) {
-            global.controller.mind.hunger += 2;
-            console.log(data.message);
+            global.controller.mind.hungry+=2;
         }
         else if (`I feel a little hungry` == data.message) {
-            global.controller.mind.hunger += 1;
-            console.log(data.message);
+            global.controller.mind.hungry++;
         }
 
         // Thirst
         else if (`I really need to drink something` == data.message) {
-            global.controller.mind.thirst += 3;
-            console.log(data.message);
+            global.controller.mind.thirsty+=3;
         }
         else if (`I feel fairly thirsty` == data.message) {
-            global.controller.mind.thirst += 2;
-            console.log(data.message);
+            global.controller.mind.thirsty+=2;
         }
         else if (`I feel a little thirsty` == data.message) {
-            global.controller.mind.thirst += 1;
-            console.log(data.message);
+            global.controller.mind.thirsty++;
         }
 
         // Oxygen
         else if (`I need some air` == data.message) {
-            global.controller.mind.oxygen += 3;
-            console.log(data.message);
         }
         else if (`I'm holding my breath` == data.message) {
-            global.controller.mind.oxygen += 2;
-            console.log(data.message);
         }
         else if (`I'm feeling a little scratched up` == data.message) {
-            global.controller.mind.oxygen += 1;
-            console.log(data.message);
         }
 
         // Death
@@ -82,14 +80,8 @@ export default class Message {
                 process.exit(0);
             }, 5000);
         }
-
         else {
-            console.log(data.message);
-            if (data.options) {
-                for (let index in data.options) {
-                    console.log(index, ':', data.options[index].name);
-                }
-            }
+            console.log(data);
         }
     }
 }

@@ -9,6 +9,9 @@ export default class Socket {
             path: _path||'/'
         });
         
+        // Mark this connection as a new connection to the game
+        this.socket.emit('joinGame');
+        
         this.socket.on('message', (data) => {
             global.controller.message.event(data);
         });
