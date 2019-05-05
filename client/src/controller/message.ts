@@ -12,29 +12,47 @@ export default class Message {
         //Hunger
         else if (`I really need to eat` == data.message) {
             global.controller.mind.hunger = true;
+            global.controller.mind.hungerCount = 50;
         }
         else if (`I feel fairly hungry` == data.message) {
         }
         else if (`I feel a little hungry` == data.message) {
             global.controller.mind.hunger = false;
+            global.controller.mind.hungerCount = 0;
+        }
+        else if (`You found something to eat` == data.message) {
+            global.controller.mind.hungerCount--;
+            if (global.controller.mind.hungerCount == 0) {
+                global.controller.mind.hunger = false;
+            }
         }
 
         // Thirst
         else if (`I really need to drink something` == data.message) {
             global.controller.mind.thirst = true;
+            global.controller.mind.thirstCount = 50;
         }
         else if (`I feel fairly thirsty` == data.message) {
         }
         else if (`I feel a little thirsty` == data.message) {
             global.controller.mind.thirst = false;
+            global.controller.mind.thirstCount = 0;
+        }
+        else if (`You took a drink` == data.message) {
+            global.controller.mind.thirstCount--;
+            if (global.controller.mind.thirstCount == 0) {
+                global.controller.mind.thirst = false;
+            }
         }
 
         // Oxygen
         else if (`I need some air` == data.message) {
             global.controller.mind.oxygen = true;
+            global.controller.mind.oxygenCount = 50;
         }
         else if (`I'm holding my breath` == data.message) {
             global.controller.mind.oxygen = false;
+            global.controller.mind.oxygenCount = 0;
         }
 
         // Death
