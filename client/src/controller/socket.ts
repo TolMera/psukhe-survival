@@ -9,6 +9,8 @@ export default class Socket {
             path: _path||'/'
         });
         
+        this.socker.emit('joinGame');
+        
         this.socket.on('message', (data) => {
             global.controller.message.event(data);
         });
