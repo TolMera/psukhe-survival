@@ -37,5 +37,10 @@ export default class Map {
      */
     distanceF(a, b) {
         return Math.sqrt(Math.pow(a.east - b.east, 2) + Math.pow(a.south - b.south, 2));
-    };
+    }
+    
+    nearest(position: coordinate, distance) {
+        if (undefined === this.kdtree) this.newTree();
+        this.kdtree.nearest(position, distance);
+    }
 }

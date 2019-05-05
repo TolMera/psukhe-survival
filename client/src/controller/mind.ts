@@ -11,8 +11,10 @@ export default class Mind {
     foodMap: any;
 
     goto: Function | undefined;
-    doEat: Function;
-    doDrink: Function;
+    doEat: Function = global.controller.intent.eat;
+    doDrink: Function = global.controller.intent.drink;
+
+    exploreAction: string;
 
     constructor() {
         this.config = require('../helper/configs').default;
@@ -21,16 +23,13 @@ export default class Mind {
 
         this.thirst = false;
         this.waterMap = new (require('./map').default);
-        
+
         this.oxygen = false;  // Dont need an oxygen map, because it would be the opposite of the water map?
-        
+
         this.hunger = false;
         this.foodMap = new (require('./map').default);
-        
-        this.goto = undefined;
 
-        this.doEat = global.controller.intent.eat;
-        this.doDrink = global.controller.intent.drink;
+        this.goto = undefined;
 
         // A little timeout to give everythint time to load in the background
         setTimeout(() => {
@@ -43,8 +42,8 @@ export default class Mind {
     }
 
     tick() {
-        console.clear();
-        console.log("---");
+        // console.clear();
+        // console.log("---");
         if (typeof (this.goto) == typeof (function () { })) {
             return this.goto();
         }
@@ -87,14 +86,15 @@ export default class Mind {
         let nearest = [];
         let loop = 1;
         while (nearest.length === 0) {
+            /* This could be an infinite loop */
             nearest = this.foodMap.nearest(this.position, loop++);
             console.log(nearest);
         }
-        let direction = getCardinal(this.position, nearest[0]);
+        let direction = global.controller.bearing.getCardinal(this.position, nearest[0]);
         if (direction === undefined) {
             if (this.position.south > nearest[0].south) return this.doMove('s');
             if (this.position.south < nearest[0].south) return this.doMove('n');
-            
+
             // The below two lines will technically never get hit, because as soon as you are in-line with it north/south, then you're no longer going to get an undefined bearing.
             if (this.position.east > nearest[0].east) return this.doMove('w');
             if (this.position.east < nearest[0].east) return this.doMove('e');
@@ -111,14 +111,15 @@ export default class Mind {
         let nearest = [];
         let loop = 1;
         while (nearest.length === 0) {
+            /* This could be an infinite loop */
             nearest = this.waterMap.nearest(this.position, loop++);
             console.log(nearest);
         }
-        let direction = getCardinal(this.position, nearest[0]);
+        let direction = global.controller.bearing.getCardinal(this.position, nearest[0]);
         if (direction === undefined) {
             if (this.position.south > nearest[0].south) return this.doMove('s');
             if (this.position.south < nearest[0].south) return this.doMove('n');
-            
+
             // The below two lines will technically never get hit, because as soon as you are in-line with it north/south, then you're no longer going to get an undefined bearing.
             if (this.position.east > nearest[0].east) return this.doMove('w');
             if (this.position.east < nearest[0].east) return this.doMove('e');
@@ -135,6 +136,43 @@ export default class Mind {
     }
 
     explore() {
-
+        switch (this.exploreAction) {
+            default:
+                this.doMove('n');
+                this.exploreAction = 'move';
+                break;
+            case 'move': // Should move in a space filling curve
+                this.doEat('n');
+                this.exploreAction = 'eatN';
+                break;
+            case 'eatN':
+                this.doEat('s');
+                this.exploreAction = 'eatS';
+                break;
+            case 'eatS':
+                this.doEat('w');
+                this.exploreAction = 'eatW';
+                break;
+            case 'eatW':
+                this.doEat('e');
+                this.exploreAction = 'eatE';
+                break;
+            case 'eatE':
+                this.doDrink('n');
+                this.exploreAction = 'drinkN';
+                break;
+            case 'drinkN':
+                this.doDrink('s');
+                this.exploreAction = 'drinkS';
+                break;
+            case 'drinkS':
+                this.doDrink('e');
+                this.exploreAction = 'drinkE';
+                break;
+            case 'drinkE':
+                this.doDrink('w');
+                this.exploreAction = 'drinkW';
+                break;
+        }
     }
 }
