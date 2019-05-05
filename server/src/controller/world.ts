@@ -56,10 +56,10 @@ export default class World {
     gridToXY(_grid: number) {
         let east = _grid % this.cubeSide;
         let south = Math.floor(_grid / this.cubeSide);
-        
-        if (east > 1023) east = 1023;
+
+        if (east > this.cubeSide - 1) east = this.cubeSide - 1;
         if (east < 0) east = 0;
-        if (south > 1023) south = 1023;
+        if (south > this.cubeSide - 1) south = this.cubeSide - 1;
         if (south < 0) south = 0;
 
         return { south, east };
