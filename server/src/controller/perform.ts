@@ -20,7 +20,7 @@ export default class Perform {
 
         switch (_intent.dir) {
             case 'n': {
-                if (point.south - 1 >= 0) {
+                if (point.south - 1 <= 0) {
                     point.south = 0;
                     char._socket.emit("message", { message: `You have encountered impassable terrain.` });
                 } else {
@@ -50,7 +50,7 @@ export default class Perform {
                 break;
             }
             case 'w': {
-                if (point.east - 1 >= 0) {
+                if (point.east - 1 <= 0) {
                     point.east = 0;
                     char._socket.emit("message", { message: `You have encountered impassable terrain.` });
                 } else {
