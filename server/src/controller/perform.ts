@@ -13,31 +13,54 @@ export default class Perform {
         let char = _socket.game.character;
         global.controller.world.pop(char.position, char);
         let point = global.controller.world.gridToXY(char.position);
+        global.controller.socket.sendToMap(
+            'remove',
+            { grid: char.position }
+        );
 
         switch (_intent.dir) {
             case 'n': {
-                point.south--;
+                if (point.south - 1 >= global.controller.world.cubeSide) {
+                    point.south = global.controller.world.cubeSide - 1;
+                } else {
+                    point.south--;
+                }
                 global.controller.world.set(point, char);
                 break;
             }
             case 's': {
-                point.south++;
+                if (point.south + 1 >= global.controller.world.cubeSide) {
+                    point.south = global.controller.world.cubeSide - 1;
+                } else {
+                    point.south++;
+                }
                 global.controller.world.set(point, char);
                 break;
             }
             case 'e': {
-                point.east++;
+                if (point.east + 1 >= global.controller.world.cubeSide) {
+                    point.east = global.controller.world.cubeSide - 1;
+                } else {
+                    point.east++;
+                }
                 global.controller.world.set(point, char);
                 break;
             }
             case 'w': {
-                point.east--;
+                if (point.east - 1 >= global.controller.world.cubeSide) {
+                    point.east = global.controller.world.cubeSide - 1;
+                } else {
+                    point.east--;
+                }
                 global.controller.world.set(point, char);
                 break;
             }
         }
-        // console.log(global.controller.world.gridToXY(char.position));
-        // console.log(char.position);
+
+        global.controller.socket.sendToMap(
+            'add',
+            { grid: char.position }
+        );
 
         global.controller.eye.reset(char);
         global.controller.ear.reset(char);
@@ -349,7 +372,7 @@ export default class Perform {
         }
         _socket.emit("message", { message: `Your trade was not forfilled because "${_intent.id}" count not be found.` });
     }
-    
+
     doTradeThirst(_socket, _intent) {
         for (let char of global.controller.game.characters) {
             if (
